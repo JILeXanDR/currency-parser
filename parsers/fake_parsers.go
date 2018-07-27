@@ -4,6 +4,10 @@ import (
 	"github.com/JILeXanDR/parser/helpers"
 	"time"
 	"github.com/JILeXanDR/parser/models"
+	"log"
+	"io/ioutil"
+	"encoding/json"
+	"fmt"
 )
 
 type Fake1Parser struct {
@@ -15,9 +19,8 @@ type Fake2Parser struct {
 type Fake3Parser struct {
 }
 
-// min=27
-// avg=28
-// max=29
+type FileParser struct {
+}
 
 func (p *Fake1Parser) ParseUrl() []CurrencyRateResult {
 	return []CurrencyRateResult{
@@ -45,6 +48,32 @@ func (p *Fake3Parser) ParseUrl() []CurrencyRateResult {
 		{
 			Currency: models.CURRENCY_USD,
 			Buy:      helpers.StringToMoney("29"),
+			Time:     time.Now(),
+		},
+	}
+}
+
+func (p *FileParser) ParseUrl() []CurrencyRateResult {
+
+	file, err := ioutil.ReadFile("./currency_rates.json")
+	if err != nil {
+		log.Println(err)
+		return []CurrencyRateResult{}
+	}
+
+	var jsontype map[string]models.Money
+	json.Unmarshal(file, &jsontype)
+	fmt.Printf("Results: %v\n", jsontype)
+
+	return []CurrencyRateResult{
+		{
+			Currency: models.CURRENCY_USD,
+			Buy:      jsontype["USD"],
+			Time:     time.Now(),
+		},
+		{
+			Currency: models.CURRENCY_EUR,
+			Buy:      jsontype["UER"],
 			Time:     time.Now(),
 		},
 	}

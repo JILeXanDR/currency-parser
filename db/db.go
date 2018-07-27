@@ -21,7 +21,7 @@ func InitDb() {
 
 	//Conn.LogMode(true)
 
-	modelStructs := []interface{}{models.ExchangeRate{}, models.RateStatistic{}}
+	modelStructs := []interface{}{models.RateStatistic{}}
 
 	Conn.DropTable(modelStructs...)
 	Conn.AutoMigrate(modelStructs...)

@@ -44,6 +44,9 @@ func GetParserForUrl(url string) (Parser, error) {
 	case strings.Contains(url, "fake3"):
 		p = &Fake3Parser{}
 		break
+	case strings.Contains(url, "fromFile"):
+		p = &FileParser{}
+		break
 	default:
 		return nil, ErrCanNotFindParser
 	}

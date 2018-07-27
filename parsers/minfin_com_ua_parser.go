@@ -59,7 +59,7 @@ func (p *MinfinComUaParser) ParseUrl() []CurrencyRateResult {
 			}
 			results = append(results, CurrencyRateResult{
 				Currency: models.CURRENCY_USD,
-				Buy:      rate,
+				Buy:      rate + 1,
 				Time:     time.Now(),
 			})
 		}
