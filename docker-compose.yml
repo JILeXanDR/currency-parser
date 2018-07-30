@@ -1,0 +1,24 @@
+version: "2"
+
+services:
+  postgresql:
+    image: postgres
+    ports:
+      - 54320:5432
+    environment:
+      POSTGRES_DB: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: d4REn0LdCH4B
+  grafana:
+    image: grafana/grafana:5.2.0
+    ports:
+      - 5000:3000
+    links:
+        - postgresql
+    environment:
+      GF_DATABASE_HOST: "postgresql"
+      GF_DATABASE_SSL_MODE: disable
+      GF_DATABASE_TYPE: postgres
+      GF_DATABASE_NAME: postgres
+      GF_DATABASE_USER: postgres
+      GF_DATABASE_PASSWORD: d4REn0LdCH4B

@@ -1,7 +1,7 @@
 (function () {
 
     let initWebSocketConnection = function connect(onmessage) {
-        let socket = new WebSocket("ws://localhost:12345/io");
+        let socket = new WebSocket(`ws://${location.host}/io`);
 
         socket.onopen = function () {
             console.info('connected');
@@ -36,6 +36,7 @@
         template: '#tpl_app',
         data() {
             return {
+                duration: parseInt(localStorage.getItem('duration') || 30),
                 chart: {
                     data: {
                         showLine: true,
@@ -75,7 +76,7 @@
                                 type: "time",
                                 time: {
                                     unit: 'second',
-                                    unitStepSize: 1,
+                                    unitStepSize: this.duration / 30,
                                     round: 'second',
                                     tooltipFormat: "hh:mm:ss",
                                     displayFormats: {
@@ -95,8 +96,9 @@
             let updateMinMaxTime = (maxTime) => {
                 let now = moment(maxTime);
                 let temp = this.chart.options;
-                temp.scales.xAxes[0].time.min = now.clone().add(-30, 'seconds');
+                temp.scales.xAxes[0].time.min = now.clone().add(this.duration * -1, 'seconds');
                 temp.scales.xAxes[0].time.max = now.clone();
+                temp.scales.xAxes[0].time.unitStepSize = this.duration / 30;
 
                 this.chart.options = temp;
             };
@@ -135,6 +137,11 @@
                 }
             );
         },
+        watch: {
+            duration(val) {
+                localStorage.setItem('duration', val)
+            }
+        }
     });
 
     new Vue({

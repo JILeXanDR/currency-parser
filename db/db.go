@@ -1,18 +1,25 @@
 package db
 
 import (
-	"fmt"
 	"github.com/jinzhu/gorm"
 	"log"
 	"github.com/JILeXanDR/parser/models"
+	"fmt"
 )
 
 var Conn *gorm.DB
 
-func InitDb() {
-	var conn = fmt.Sprintf("host=localhost port=5433 user=postgres dbname=exchange_rates password=postgres")
+var (
+	host     = "localhost"
+	port     = 54320
+	db       = "postgres"
+	user     = "postgres"
+	password = "d4REn0LdCH4B"
+)
 
-	db, err := gorm.Open("postgres", conn)
+func InitDb() {
+
+	db, err := gorm.Open("postgres", fmt.Sprintf("postgresql://%v:%v@%v:%v/%v?sslmode=disable", user, password, host, port, db))
 	if err != nil {
 		log.Panicf("failed to connect database becauase in reason %s", err.Error())
 	}
@@ -23,6 +30,6 @@ func InitDb() {
 
 	modelStructs := []interface{}{models.RateStatistic{}}
 
-	Conn.DropTable(modelStructs...)
+	//Conn.DropTable(modelStructs...)
 	Conn.AutoMigrate(modelStructs...)
 }

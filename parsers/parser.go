@@ -12,10 +12,10 @@ func GetSources() []string {
 	return []string{
 		"https://kurs.com.ua/gorod/2324-cherkassy/?utm_source=geo&utm_content=cherkassy",
 		"https://minfin.com.ua/currency/banks/cherkassy/",
-		"fake1",
-		"fake2",
-		"fake3",
-		"fromFile",
+		//"fake1",
+		//"fake2",
+		//"fake3",
+		//"fromFile",
 	}
 }
 

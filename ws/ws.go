@@ -74,10 +74,8 @@ func WebSocketHandler(ws *websocket.Conn) {
 	// установка соединения, добавляем клиента в массив
 	WebSocketClients.add(ws)
 
-	// отправка сообщения после подключения
-	SendMessageToClient(ws, NewWebSocketMessage("main", "Привет!"))
-
-	last, _ := repositories.LastStatistics(models.CURRENCY_USD)
+	// отправляем последние данные о курсе валют
+	last, _ := repositories.LastStatistics(models.CURRENCY_USD, 30)
 	SendMessageToClient(ws, NewWebSocketMessage("rates", last))
 
 	for {
